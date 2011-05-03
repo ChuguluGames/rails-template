@@ -1,5 +1,5 @@
 # base_template.rb
-load_template "/Users/netbe/code/bundler_template.rb"
+load_template "https://github.com/ChuguluGames/rails-template/raw/rails2/bundler_template.rb"
 
 project_dir = root.split('/').last
 
