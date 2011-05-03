@@ -30,13 +30,19 @@ run "touch -f tmp/.gitignore log/.gitignore vendor/.gitignore"
 
 file 'Gemfile', <<-GEMFILE
 source :gemcutter
-gem 'rails', '3.0.5', :require => nil
+gem 'rails', '3.0.7', :require => nil
 # Switch to the appropriate gem for your database
 gem 'mysql'
 gem 'thin'
 gem 'haml'
 gem "haml-rails", ">= 0.3.4"
 gem 'jquery-rails'
+
+group :development do
+  gem 'capistrano'
+	gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
+  gem 'guard-livereload'
+end
 
 GEMFILE
 
@@ -74,8 +80,12 @@ test: &TEST
 }
 
 run "cp  config/database.yml config/.database.yml"
+run "cp  config/database.yml config/.database.yml"
 
-#git :add => ".", :commit => "-m 'initial commit'"
+#add tasks
+run "cp /Users/netbe/code/web/rails-template/lib/tasks/extract_fixtures.rake lib/tasks/extract_fixtures.rake"
+
+git :add => ".", :commit => "-m 'initial commit'"
 
 
 
@@ -86,3 +96,7 @@ generate :controller, "welcome index"
 route "root :to => 'welcome#index'"
 
 git :add => ".", :commit => "-m 'adding welcome controller'"
+
+
+#migrations
+run "rake db:setup"
